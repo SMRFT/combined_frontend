@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-import { jwtDecode } from "jwt-decode";
+import {validate} from "./jwt-check.js";
 
 const Container = styled.div`
   display: flex;
@@ -149,13 +149,29 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
       });
 
-      const { token, user } = res.data;
+      const { access_token } = res.data;
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("access_token", access_token);
 
-      const decoded = jwtDecode(token);
-      console.log("Decoded Token:", decoded);
+      const user = validate(access_token);
+      console.log("User id:", user.id());
+      console.log("User name:", user.name());
+      console.log("User email:", user.email());
+      console.log("Allowed Actions:", user.allowedActions());
+      console.log("Allowed Data:", user.allowedData());
+      console.log("Allowed Pages:", user.allowedPages());
+      
+      console.log("Check if user has RW access to page SD-P-BG and branch SHB003:", user.checkAccess("SHB003", "SD-P-BG-RW"));
+      console.log("Check if user has RW access to page SD-P-BG and branch SHB003:", user.checkAccess("SHB003", "SD-P-BG", "RW"));
+      console.log("Check if user has RW access to page SD-P-BG:", user.checkRoleAccess("SD-P-BG-RW"));
+      console.log("Check if user has RW access to page SD-P-BG:", user.checkRoleAccess("SD-P-BG", "RW"));
+      console.log("Check if user has RW access to branch SHB003:", user.checkDataAccess("SHB003"));
+
+      console.log("Check if user has RW access to page SD-P-XX and branch SHB003:", user.checkAccess("SHB003", "SD-P-XX-RW"));
+      console.log("Check if user has RW access to page SD-P-XX and branch SHB003:", user.checkAccess("SHB003", "SD-P-XX", "RW"));
+      console.log("Check if user has RW access to page SD-P-XX:", user.checkRoleAccess("SD-P-XX-RW"));
+      console.log("Check if user has RW access to page SD-P-XX:", user.checkRoleAccess("SD-P-XX", "RW"));
+      console.log("Check if user has RW access to branch SHB009:", user.checkDataAccess("SHB009"));
 
       navigate("/Profile");
     } catch (err) {
