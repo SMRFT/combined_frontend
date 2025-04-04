@@ -173,7 +173,7 @@ const Login = () => {
       console.log("Check if user has RW access to page SD-P-XX:", user.checkRoleAccess("SD-P-XX", "RW"));
       console.log("Check if user has RW access to branch SHB009:", user.checkDataAccess("SHB009"));
 
-      navigate("/Profile");
+      navigate("/Dashboard");
     } catch (err) {
       console.error("Login error:", err.response?.data || err);
       setError(err.response?.data?.message || "Invalid credentials");
