@@ -1,10 +1,12 @@
-"use client"
+
 
 import { useState, useRef, useEffect, Fragment } from "react"
 import styled, { createGlobalStyle } from "styled-components"
 import axios from "axios"
 import moment from "moment"
 import { Combobox, Transition } from "@headlessui/react"
+
+const GlobalBaseUrl = import.meta.env.VITE_BACKEND_GLOBAL_BASE_URL;
 
 import {
   Save,
@@ -550,7 +552,25 @@ function Profile() {
     dataEntitlements: [],
     dataEntitlementNames: [], // Also add this for consistency
   })
+ // Fetch roles from the backend
+  // Update the roles fetch to include full role objects
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const response = await axios.get("_b_a_c_k_e_n_d/Global/getprimaryandadditionalrole/")
+        const roles = response.data.designations || []
 
+        // Filter active roles and keep full objects
+        const activeRoles = roles.filter((role) => role.is_active === true)
+        setPrimaryRoleOptions(activeRoles)
+        setAdditionalRoleOptions(activeRoles)
+      } catch (error) {
+        console.error("Error fetching roles:", error)
+      }
+    }
+
+    fetchRoles()
+  }, [])
   // State for roles
   const [primaryRoleQuery, setPrimaryRoleQuery] = useState("")
   const [primaryRoleOptions, setPrimaryRoleOptions] = useState([])
@@ -562,7 +582,7 @@ function Profile() {
   useEffect(() => {
     const fetchRoles = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/getprimaryandadditionalrole/")
+        const response = await axios.get(GlobalBaseUrl + "login/",)
         const roles = response.data.designations || []
 
         // Filter active roles and keep full objects
@@ -800,7 +820,7 @@ function Profile() {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/get_data_departments/")
+        const response = await axios.get("http://127.0.0.1:6553/_b_a_c_k_e_n_d/Global/get_data_departments/")
         const allDepartments = response.data.departments
         const activeDepartments = allDepartments.filter((item) => item.is_active)
         setDepartmentsData(activeDepartments)
@@ -822,13 +842,13 @@ function Profile() {
   }
 
   const [designationsData, setDesignationsData] = useState([])
-  const [designationOptions, setDesignationOptions] = useState([])
+//   const [designationOptions, setDesignationOptions] = useState([])
 
   // Update designation handling
   useEffect(() => {
     const fetchDesignations = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/get_data_designation/")
+        const response = await axios.get("http://127.0.0.1:6553/_b_a_c_k_e_n_d/Global/get_data_designation/")
         const data = response.data.designations
         const activeDesignations = data.filter((item) => item.is_active)
         setDesignationsData(activeDesignations)
@@ -876,8 +896,10 @@ function Profile() {
     }
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/create_employee/", profileData, {
-        headers: { "Content-Type": "application/json", "authorization":"test", "data-code":"global" },
+      const token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJURVNUMSIsImVtYWlsIjoiVEVTVDFAc2hhbm11Z2EuY29tIiwibmFtZSI6IlRFU1QxLCBURVNUMSIsImFsbG93ZWQtYWN0aW9ucyI6WyJHTC1QLUFCLVJXIiwiU0QtUC1CQVItUiIsIlNELVAtQkFSLUdCQyJdLCJhbGxvd2VkLWRhdGEiOlsiR0xPQkFMIl0sImlzcyI6Imh0dHBzOi8vbGFiLnNoaW5vdmEuaW4vIiwiaWF0IjoxNzQyNjUyMDUyLCJleHAiOjIyODI2NTIwNTIsImp0aSI6IjU3NzljMDNmLTRlYWQtNGVhNC1hNWMwLTdiODlmNTcxMjRmOCJ9.D9DNnPCXpFU9q1pQBPb56avE37NK7tFmevtPq89m5zg90p8lhYH4XYg4I397IS1AMEHUqk2G6EZueAljbUOhATtEXVpy8Qun2JQVd90smmi3q-b02V9iLtuALVXQ4Iczs8AK2xT6O-rlfgGHsSPU5pO_3TsELFsUv3cWu7sK4QAKuXl8crcm1zfJLeU_kPnUBpoNeRWXRJSr0zVLK7E8s9Czaz_yIAlBKq6LGAkgMBBJlBHgeqnt4Oj_9W4qs4ZvN9se79Bk1elliurh95mw8Vfy6EIijCcjojalBoahr36Fx1y7GEsHa_CpDENd2Sf5EMlosEYFxqIfbhJCM2ZePA';
+      const branch_code = 'GLOBAL';
+      const response = await axios.post(GlobalBaseUrl + "create_employee/", profileData, {
+        headers: { "Content-Type": "application/json", "authorization":token, "branch-code":branch_code },
       })
       console.log("Profile Created:", response.data)
     } catch (error) {
@@ -891,7 +913,7 @@ function Profile() {
   useEffect(() => {
     const fetchDataEntitlements = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/data-entitlements/")
+        const response = await axios.get("http://127.0.0.1:6553/_b_a_c_k_e_n_d/Global/data-entitlements/")
         setDataEntitlementOptions(response.data.dataEntitlements) // Ensure this is correctly mapped
       } catch (error) {
         console.error("Error fetching data entitlements:", error)

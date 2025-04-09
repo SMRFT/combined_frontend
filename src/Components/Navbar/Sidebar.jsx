@@ -17,7 +17,7 @@ import { ImLab } from "react-icons/im"
 import { PiTestTubeDuotone } from "react-icons/pi"
 import { GrOverview } from "react-icons/gr"
 import { TbReport } from "react-icons/tb"
-import SignOut from "../SignOut"
+import SignOut from "../Diagnostic/SignOut"
 // Keyframes for animations
 
 const slideIn = keyframes`
@@ -344,9 +344,9 @@ const Sidebar = () => {
  }
 
  // Get first letter of role for avatar
- const getInitial = () => {
- return name ? name.charAt(0).toUpperCase() : "U"; // Show name initial instead of role initial
- };
+//  const getInitial = () => {
+//  return name ? name.charAt(0).toUpperCase() : "U"; // Show name initial instead of role initial
+//  };
 
  return (
  <>

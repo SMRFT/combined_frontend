@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-import {validate} from "./jwt-check.js";
+import {validate} from "../jwt-check";
+
+const securityBaseUrl = import.meta.env.VITE_BACKEND_SECURITY_BASE_URL;
 
 const Container = styled.div`
   display: flex;
@@ -145,7 +147,7 @@ const Login = () => {
     }
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/Security/login/", formData, {
+      const res = await axios.post(securityBaseUrl + "create_employee/", formData, {
         headers: { "Content-Type": "application/json" },
       });
 
@@ -173,7 +175,7 @@ const Login = () => {
       console.log("Check if user has RW access to page SD-P-XX:", user.checkRoleAccess("SD-P-XX", "RW"));
       console.log("Check if user has RW access to branch SHB009:", user.checkDataAccess("SHB009"));
 
-      navigate("/Dashboard");
+      navigate("/Profile");
     } catch (err) {
       console.error("Login error:", err.response?.data || err);
       setError(err.response?.data?.message || "Invalid credentials");

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import bcrypt from 'bcryptjs';
+// import bcrypt from 'bcryptjs';
 
 import { 
   Search, 
@@ -461,7 +461,7 @@ const EmployeeList = () => {
 
   const getAllEmployees = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/create_employee/');
+      const response = await axios.get('http://127.0.0.1:6553/_b_a_c_k_e_n_d/Global/create_employee/');
       const employeeData = response.data.employees || [];
       setEmployees(employeeData);
       setFilteredEmployees(employeeData);
@@ -542,17 +542,13 @@ const EmployeeList = () => {
   const handleSaveCredentials = async () => {
     if (!validatePasswords()) return;
     
-    // Encrypt password before sending it to backend
-    const salt = bcrypt.genSaltSync(10);
-    const hashedPassword = bcrypt.hashSync(password, salt);
-
     try {
-      await axios.post('http://127.0.0.1:8000/set_employee_password/', {
+      await axios.post('http://127.0.0.1:6553/_b_a_c_k_e_n_d/Global/set_employee_password/', {
         employeeId: selectedEmployee.employeeId,
         employeeName: selectedEmployee.employeeName,
         department: selectedEmployee.department,
         designation: selectedEmployee.designation,
-        password: hashedPassword  // Send encrypted password
+        password: password  // Send plain password instead of hashed password
       });
       
       alert('Password set successfully!');
@@ -561,11 +557,11 @@ const EmployeeList = () => {
       console.error('Error setting password:', error.response?.data || error.message);
       setPasswordError('Failed to set password. Please try again.');
     }
-};
-  const formatArrayToString = (arr) => {
-    if (!arr || arr.length === 0) return 'None';
-    return arr.join(', ');
   };
+  // const formatArrayToString = (arr) => {
+  //   if (!arr || arr.length === 0) return 'None';
+  //   return arr.join(', ');
+  // };
 
   return (
     <PageContainer>
