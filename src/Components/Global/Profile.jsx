@@ -557,7 +557,8 @@ function Profile() {
   useEffect(() => {
     const fetchRoles = async () => {
       try {
-        const response = await axios.get("_b_a_c_k_e_n_d/Global/getprimaryandadditionalrole/")
+
+        const response = await axios.get(GlobalBaseUrl + "/getprimaryandadditionalrole/",)
         const roles = response.data.designations || []
 
         // Filter active roles and keep full objects
@@ -582,7 +583,7 @@ function Profile() {
   useEffect(() => {
     const fetchRoles = async () => {
       try {
-        const response = await axios.get(GlobalBaseUrl + "login/",)
+        const response = await axios.get(GlobalBaseUrl + "/create_employee/",)
         const roles = response.data.designations || []
 
         // Filter active roles and keep full objects
@@ -814,13 +815,14 @@ function Profile() {
     }
   }
   const [departmentsData, setDepartmentsData] = useState([])
-  const [departmentNameKey, setDepartmentNameKey] = useState("")
+  // const [departmentNameKey, setDepartmentNameKey] = useState("")
 
   // Update the department handling
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:6553/_b_a_c_k_e_n_d/Global/get_data_departments/")
+        
+        const response = await axios.get(GlobalBaseUrl + "/get_data_departments/",)
         const allDepartments = response.data.departments
         const activeDepartments = allDepartments.filter((item) => item.is_active)
         setDepartmentsData(activeDepartments)
@@ -848,7 +850,7 @@ function Profile() {
   useEffect(() => {
     const fetchDesignations = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:6553/_b_a_c_k_e_n_d/Global/get_data_designation/")
+        const response = await axios.get(GlobalBaseUrl + "/get_data_designation/",)
         const data = response.data.designations
         const activeDesignations = data.filter((item) => item.is_active)
         setDesignationsData(activeDesignations)

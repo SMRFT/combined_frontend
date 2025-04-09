@@ -147,7 +147,7 @@ const Login = () => {
     }
 
     try {
-      const res = await axios.post(securityBaseUrl + "create_employee/", formData, {
+      const res = await axios.post(securityBaseUrl + "login/", formData, {
         headers: { "Content-Type": "application/json" },
       });
 
