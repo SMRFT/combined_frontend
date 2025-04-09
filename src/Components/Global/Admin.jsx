@@ -209,10 +209,13 @@ function Admin() {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState({});
 
+  const GlobalBaseUrl = import.meta.env.VITE_BACKEND_GLOBAL_BASE_URL;
+
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:6553/_b_a_c_k_e_n_d/Global/get_data_departments/');
+       
+        const response = await axios.get(GlobalBaseUrl + "get_data_departments/",)
         setDepartments(response.data.departments);
       } catch (error) {
         console.error('Error fetching departments:', error);
@@ -221,7 +224,8 @@ function Admin() {
 
     const fetchDesignations = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:6553/_b_a_c_k_e_n_d/Global/get_data_designation/');
+        
+        const response = await axios.get(GlobalBaseUrl + "get_data_designation/",)
         setDesignations(response.data.designations);
       } catch (error) {
         console.error('Error fetching designations:', error);
@@ -240,8 +244,8 @@ function Admin() {
 
     try {
       const endpoint = type === 'department'
-        ? `http://127.0.0.1:6553/_b_a_c_k_e_n_d/Global/update_department/${id}/`
-        : `http://127.0.0.1:6553/_b_a_c_k_e_n_d/Global/update_designation/${id}/`;
+        ? GlobalBaseUrl +"update_department/"+`${id}/`
+        : GlobalBaseUrl +"update_designation/"+`${id}/`;
 
       const response = await axios.put(endpoint, {
         is_active: !item.is_active

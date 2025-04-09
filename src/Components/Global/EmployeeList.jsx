@@ -459,9 +459,12 @@ const EmployeeList = () => {
   const [passwordError, setPasswordError] = useState('');
   const [departments, setDepartments] = useState([]);
 
+
+  const GlobalBaseUrl = import.meta.env.VITE_BACKEND_GLOBAL_BASE_URL;
+
   const getAllEmployees = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:6553/_b_a_c_k_e_n_d/Global/create_employee/');
+      const response = await axios.get(GlobalBaseUrl + "create_employee/",)
       const employeeData = response.data.employees || [];
       setEmployees(employeeData);
       setFilteredEmployees(employeeData);
@@ -543,7 +546,9 @@ const EmployeeList = () => {
     if (!validatePasswords()) return;
     
     try {
-      await axios.post('http://127.0.0.1:6553/_b_a_c_k_e_n_d/Global/set_employee_password/', {
+
+   
+      await axios.post (GlobalBaseUrl + "set_employee_password/", {
         employeeId: selectedEmployee.employeeId,
         employeeName: selectedEmployee.employeeName,
         department: selectedEmployee.department,

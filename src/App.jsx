@@ -7,6 +7,7 @@ import SignOut from "./Components/Diagnostic/SignOut";
 import Admin from "./Components/Global/Admin";
 import Profile from "./Components/Global/Profile";
 import PatientForm from './Components/Diagnostic/PatientForm';
+import EmployeeList from "./Components/Global/EmployeeList";
 
 // Wrapper for the main content to shift it to the right of the sidebar
 const ContentWrapper = styled.div`
@@ -46,7 +47,7 @@ function App() {
           <Route path="/SignOut" element={<SignOut/>} />
           <Route path="/Admin" element={<Admin/>} />
           <Route path="/Profile" element={<Profile/>} />
-
+          <Route path="/EmployeeList" element={<EmployeeList/>} />
          <Route path="/PatientForm" element={<PatientForm/>} />
           {/* <Route path="/SampleCollectorForm" element={<SampleCollectorForm />} />
           <Route path="/ClinicalName" element={<ClinicalName />} />
@@ -85,7 +86,7 @@ function App() {
           <Route path="/B2BFinalApproval" element={<B2BFinalApproval />} />
           <Route path="/PatientTAT" element={<PatientTAT />} />
          
-          <Route path="/EmployeeList" element={<EmployeeList/>} /> */}
+          */}
           
           
         </Routes>
