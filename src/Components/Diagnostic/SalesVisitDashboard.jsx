@@ -4,6 +4,9 @@ import { Container, Typography, Box, Select, MenuItem, TextField, Card } from "@
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, LineChart, Line, RadialBarChart, RadialBar } from "recharts";
 import { motion } from "framer-motion";
 
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 const SalesVisitDashboard = () => {
     const [logs, setLogs] = useState([]);
     const [salespersonVisits, setSalespersonVisits] = useState([]);
@@ -19,7 +22,7 @@ const SalesVisitDashboard = () => {
 
     const fetchLogs = async () => {
         try {
-            const url = "https://lab.shinovadatabase.in/SalesVisitLog/";
+            const url = `${DiagnosticsBaseUrl}SalesVisitLog/`;
             const params = {};
             if (selectedSalesperson) params.salesMapping = selectedSalesperson;
             if (selectedMonth) params.date = `${selectedMonth}-01`;

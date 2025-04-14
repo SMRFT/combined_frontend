@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
 // Styled Components
 const ModalOverlay = styled.div`
   position: fixed;
@@ -168,7 +168,7 @@ const SampleCollectorForm = ({ show, setShow, onSampleCollectorAdded }) => {
     const handleSampleCollectorSave = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://lab.shinovadatabase.in/sample-collector/', formData);
+            const response = await axios.post('${DiagnosticsBaseUrl}/sample-collector/', formData);
             alert('Sample Collector saved successfully!');
             setShow(false);
             onSampleCollectorAdded();

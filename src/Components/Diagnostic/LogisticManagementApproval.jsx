@@ -4,6 +4,8 @@ import styled, { css, createGlobalStyle } from "styled-components";
 import { AlertCircle, CheckCircle, Save, Truck, Calendar, Clock, User, FileText, MessageSquare } from "lucide-react";
 import axios from "axios";
 
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
 // Global styles for consistent look
 const GlobalStyle = createGlobalStyle`
   body {
@@ -460,7 +462,9 @@ const LogisticManagementApproval = () => {
     if (userName) {
       setLoading(true);
       axios
-        .get(`https://lab.shinovadatabase.in/getlogisticdata/?sampleCollector=${userName}`)
+      .get(`${DiagnosticsBaseUrl}/getlogisticdata/`, {
+        params: { sampleCollector: userName },
+      })
         .then((response) => {
           const currentDate = new Date().toISOString().split("T")[0];
           setTodayTasks(response.data.filter((task) => task.date === currentDate));
@@ -525,7 +529,7 @@ const LogisticManagementApproval = () => {
     setAlert({ message: "Saving task...", type: "pending", visible: true });
 
     axios
-      .get(" https://lab.shinovadatabase.in/savesamplecollector/", {
+    .get(`${DiagnosticsBaseUrl}/savesamplecollector/`,{
         params: payload,
       })
       .then((response) => {
@@ -548,7 +552,7 @@ const LogisticManagementApproval = () => {
           };
 
           axios
-            .patch(" https://lab.shinovadatabase.in/updatesamplecollectordetails/", updatePayload)
+          .patch(`${DiagnosticsBaseUrl}/updatesamplecollectordetails/`, updatePayload)
             .then(() => {
               setAlert({ message: "Task updated successfully", type: "success", visible: true });
               setTimeout(() => setAlert({ ...alert, visible: false }), 3000);
@@ -575,7 +579,7 @@ const LogisticManagementApproval = () => {
           };
 
           axios
-            .post("https://lab.shinovadatabase.in/savesamplecollector/", savePayload)
+          .post(`${DiagnosticsBaseUrl}/savesamplecollector/`, savePayload)
             .then(() => {
               setAlert({ message: "Task saved successfully", type: "success", visible: true });
               setTimeout(() => setAlert({ ...alert, visible: false }), 3000);

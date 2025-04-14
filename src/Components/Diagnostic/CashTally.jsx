@@ -6,6 +6,8 @@ import { PDFDownloadLink, Document, Page, Text, View, StyleSheet } from "@react-
 import styled from "styled-components"
 import { Download, Calendar, DollarSign, FileText, X, CreditCard, Eye } from "lucide-react"
 
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 // Styled Components
 const Container = styled.div`
   max-width: 1200px;
@@ -531,7 +533,7 @@ const CashTally = () => {
   const fetchReportData = async (start, end) => {
     setIsLoading(true)
     try {
-      const response = await axios.get("https://lab.shinovadatabase.in/patient_report/", {
+      const response = await axios.get(`${DiagnosticsBaseUrl}patient_report/`, {
         params: { start_date: start, end_date: end },
       })
       setReportData(response.data.report || [])

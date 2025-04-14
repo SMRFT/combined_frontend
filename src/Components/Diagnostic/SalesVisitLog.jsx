@@ -20,7 +20,9 @@ import {
   FaComments 
 } from "react-icons/fa"
 import HospitalLabForm from "./HospitalLabForm"
+ 
 
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
 // Media queries
 const breakpoints = {
   sm: '576px',
@@ -495,7 +497,7 @@ const SalesVisitLog = () => {
 
   useEffect(() => {
     axios
-      .get("https://lab.shinovadatabase.in/clinical_name/")
+      .get("${DiagnosticsBaseUrl}/clinical_name/")
       .then((response) => {
         console.log("Fetched clinical names:", response.data)
         setClinicalNames(response.data)
@@ -507,7 +509,7 @@ const SalesVisitLog = () => {
 
   useEffect(() => {
     axios
-      .get("https://lab.shinovadatabase.in/hospitallabform/")
+      .get("${DiagnosticsBaseUrl}/hospitallabform/")
       .then((response) => {
         console.log("Fetched hospitals:", response.data)
         setHospitals(response.data)
@@ -647,7 +649,7 @@ const SalesVisitLog = () => {
       const formattedTime = format(zonedDate, "hh:mm:ss a") 
 
       // Send the formatted date and time to the backend
-      const response = await axios.post("https://lab.shinovadatabase.in/SalesVisitLog/", {
+      const response = await axios.post("${DiagnosticsBaseUrl}/SalesVisitLog/", {
         ...formData,
         date: formattedDate,
         time: formattedTime,

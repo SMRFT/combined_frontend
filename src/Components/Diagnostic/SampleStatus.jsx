@@ -1,11 +1,11 @@
-"use client"
-
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { format } from "date-fns"
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components"
 import { Calendar, Search, Check, X, AlertCircle, CheckCircle } from "lucide-react"
 
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
 // Theme
 const theme = {
   colors: {
@@ -523,7 +523,7 @@ const SampleStatus = () => {
         const localDate = new Date(selectedDate)
         localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset())
         const formattedDate = localDate.toISOString().split("T")[0]
-        const response = await axios.get("https://lab.shinovadatabase.in/sample_patient/", {
+        const response = await axios.get("${DiagnosticsBaseUrl}/sample_patient/", {
           params: { date: formattedDate },
         })
         const patientsData = typeof response.data === "string" ? JSON.parse(response.data) : response.data
@@ -537,7 +537,7 @@ const SampleStatus = () => {
 
     const fetchTestDetails = async () => {
       try {
-        const response = await axios.get("https://lab.shinovadatabase.in/test_details/")
+        const response = await axios.get("${DiagnosticsBaseUrl}/test_details/")
         const details = response.data.reduce((acc, detail) => {
           acc[detail["test_name"]] = {
             collection_container: detail["collection_container"],
@@ -603,7 +603,7 @@ const SampleStatus = () => {
         })),
       }
 
-      await axios.post("https://lab.shinovadatabase.in/sample_status/", [formattedData])
+      await axios.post("${DiagnosticsBaseUrl}/sample_status/", [formattedData])
 
       setSavedTests((prev) => ({
         ...prev,
@@ -643,7 +643,7 @@ const SampleStatus = () => {
       })
 
     try {
-      await axios.put(`https://lab.shinovadatabase.in/update_sample_status/${patient.patient_id}/`, updates)
+      await axios.put(`${DiagnosticsBaseUrl}/update_sample_status/${patient.patient_id}/`, updates)
 
       setSuccessMessage("Selected tests updated successfully")
       setError(null)
@@ -905,4 +905,3 @@ const SampleStatus = () => {
 }
 
 export default SampleStatus
-

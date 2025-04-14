@@ -5,12 +5,15 @@ import { format } from 'date-fns';
 import JsBarcode from 'jsbarcode'; // Import JsBarcode
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
-import headerImage from '../Images/Header.png'
-import FooterImage from '../Images/Footer.png';
-import Vijayan from '../Images/Vijayan.png';
+import headerImage from './Images/Header.png';
+import FooterImage from './Images/Footer.png';
+import Vijayan from './Images/Vijayan.png';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import axios from "axios";
 import { X, Printer, Download, Check, ChevronDown, ChevronUp, Search } from 'lucide-react';
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -273,7 +276,7 @@ const TestSorting = ({ patient, onClose }) => {
     const [showPrintOptions, setShowPrintOptions] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     useEffect(() => {
-        axios.get(`https://lab.shinovadatabase.in/patient_test_sorting/`, {
+        axios.get(`${DiagnosticsBaseUrl}/patient_test_sorting/`, {
             params: { patient_id: patient.patient_id, date: patient.date },
         })
         .then((response) => {
@@ -317,7 +320,7 @@ const TestSorting = ({ patient, onClose }) => {
 
         try {
             const response = await axios.get(
-                `https://lab.shinovadatabase.in/get_patient_test_details/?patient_id=${patient.patient_id}`
+                `${DiagnosticsBaseUrl}/get_patient_test_details/?patient_id=${patient.patient_id}`
             );
             const patientDetails = response.data;
 

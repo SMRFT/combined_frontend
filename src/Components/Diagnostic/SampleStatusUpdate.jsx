@@ -5,6 +5,8 @@ import axios from "axios"
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components"
 import { Search, X, CheckCircle, AlertCircle, FileText, Clock, User, Calendar, Tag, Activity } from "lucide-react"
 
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 // Theme definition
 const theme = {
   colors: {
@@ -534,7 +536,7 @@ const SampleStatusUpdate = () => {
     const fetchSampleCollected = async () => {
       setLoading(true)
       try {
-        const response = await axios.get("https://lab.shinovadatabase.in/get_sample_collected/")
+        const response = await axios.get("${DiagnosticsBaseUrl}/get_sample_collected/")
         setSamples(response.data.data || [])
         setError(null)
       } catch (err) {
@@ -585,7 +587,7 @@ const SampleStatusUpdate = () => {
     }
 
     try {
-      const response = await axios.put(`https://lab.shinovadatabase.in/update_sample_collected/${patientId}/`, {
+      const response = await axios.put(`${DiagnosticsBaseUrl}/update_sample_collected/${patientId}/`, {
         updates: [
           {
             testIndex,

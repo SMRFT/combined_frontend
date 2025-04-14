@@ -5,6 +5,9 @@ import TestForm from './TestForm';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
 // Modern styled components with responsive design
 const Container = styled.div`
   padding: 1rem;
@@ -264,7 +267,7 @@ const TestEdit = () => {
   useEffect(() => {
     const fetchTestDetails = async () => {
       try {
-        const response = await fetch("https://lab.shinovadatabase.in/test_details/");
+        const response = await fetch(`${DiagnosticsBaseUrl}test_details/`);
         const data = await response.json();
         setTestDetails(data);
         setFilteredTestDetails(data);
@@ -322,7 +325,7 @@ const TestEdit = () => {
   
   const handleSaveParameters = async () => {
     try {
-      const response = await fetch("https://lab.shinovadatabase.in/test_details/", {
+      const response = await fetch(`${DiagnosticsBaseUrl}test_details/`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -351,7 +354,7 @@ const TestEdit = () => {
     const updatedTest = filteredTestDetails[index];
 
     try {
-      const response = await fetch("https://lab.shinovadatabase.in/test_details_test/", {
+      const response = await fetch(`${DiagnosticsBaseUrl}/test_details_test/`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

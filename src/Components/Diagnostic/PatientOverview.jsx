@@ -14,9 +14,11 @@ import { IoIosFemale,IoIosMale,IoMdClose  } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // Import images
-import headerImage from '../Images/Header.png';
-import FooterImage from '../Images/Footer.png';
-import Vijayan from '../Images/Vijayan.png';
+import headerImage from './Images/Header.png';
+import FooterImage from './Images/Footer.png';
+import Vijayan from './Images/Vijayan.png';
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
 
 // Global styles
 const GlobalStyle = createGlobalStyle`
@@ -430,7 +432,7 @@ const PatientOverview = () => {
 
   useEffect(() => {
     // Fetch Refby
-    axios.get('https://lab.shinovadatabase.in/refby/')
+    axios.get(`${DiagnosticsBaseUrl}refby/`)
       .then(response => {
         setRefByOptions(response.data);
       })
@@ -441,7 +443,7 @@ const PatientOverview = () => {
   }, []);
 
   useEffect(() => {
-    axios.get('https://lab.shinovadatabase.in/clinical_name/')
+    axios.get(`${DiagnosticsBaseUrl}clinical_name/`)
       .then((response) => {
         setClinicalNames(response.data);
       })
@@ -458,7 +460,7 @@ const PatientOverview = () => {
     const formattedEndDate = endDate.toISOString().split("T")[0];
 
     axios
-      .get(`https://lab.shinovadatabase.in/overall_report/`, {
+      .get(`${DiagnosticsBaseUrl}overall_report/`, {
         params: {
           from_date: formattedStartDate,
           to_date: formattedEndDate,
@@ -487,7 +489,7 @@ const PatientOverview = () => {
     const formattedEndDate = endDate.toISOString().split("T")[0];
 
     axios
-      .get("https://lab.shinovadatabase.in/patient_test_status/", {
+      .get(`${DiagnosticsBaseUrl}patient_test_status/`, {
         params: {
           from_date: formattedStartDate,
           to_date: formattedEndDate,
@@ -557,7 +559,7 @@ const clearFilters = () => {
   const handleDispatch = async (patient) => {
     try {
       const response = await axios.patch(
-        `https://lab.shinovadatabase.in/update_dispatch_status/${patient.patient_id}/`
+        `${DiagnosticsBaseUrl}/update_dispatch_status/${patient.patient_id}/`
       );
   
       if (response.status === 200) {
@@ -567,7 +569,7 @@ const clearFilters = () => {
         const formattedEndDate = endDate.toISOString().split("T")[0];
         
         axios
-          .get(`https://lab.shinovadatabase.in/overall_report/`, {
+          .get(`${DiagnosticsBaseUrl}overall_report/`, {
             params: {
               from_date: formattedStartDate,
               to_date: formattedEndDate,
@@ -619,7 +621,7 @@ const clearFilters = () => {
 
         // Upload PDF file
         const uploadResponse = await axios.post(
-            "https://lab.shinovadatabase.in/upload-pdf/",
+            `${DiagnosticsBaseUrl}/upload-pdf/`,
             formData,
             { headers: { "Content-Type": "multipart/form-data" } }
         );
@@ -693,7 +695,7 @@ const clearFilters = () => {
         new File([pdfBlob], `${patient.patientname}_TestDetails.pdf`, { type: "application/pdf" })
       );
 
-      await axios.post("https://lab.shinovadatabase.in/send-email/", formData, {
+      await axios.post(`${DiagnosticsBaseUrl}/send-email/`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -710,7 +712,7 @@ const clearFilters = () => {
 
       // Simulated patient data for demo
       const response = await axios.get(
-        `https://lab.shinovadatabase.in/get_patient_test_details/?patient_id=${patient.patient_id}`,
+        `${DiagnosticsBaseUrl}/get_patient_test_details/?patient_id=${patient.patient_id}`,
       )
       const patientDetails = response.data
       if (!patientDetails.testdetails || patientDetails.testdetails.length === 0) {

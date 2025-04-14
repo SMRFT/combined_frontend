@@ -4,6 +4,8 @@ import axios from 'axios';
 import JsBarcode from 'jsbarcode';
 import styled from "styled-components"
 
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 import 'react-toastify/dist/ReactToastify.css';
 import {
   ArrowLeft,
@@ -381,7 +383,7 @@ const BarcodeTestDetails = () => {
   useEffect(() => {
     const fetchMaxBarcode = async () => {
       try {
-        const response = await axios.get('https://lab.shinovadatabase.in/get-max-barcode/');
+        const response = await axios.get('${DiagnosticsBaseUrl}/get-max-barcode/');
         const maxBarcode = response.data.next_barcode;
         setBarcodeCounter(maxBarcode);
       } catch (error) {
@@ -412,7 +414,7 @@ const BarcodeTestDetails = () => {
       let existingBarcodeFound = false
 
       try {
-        const response = await axios.get("https://lab.shinovadatabase.in/get-existing-barcode/", {
+        const response = await axios.get("${DiagnosticsBaseUrl}/get-existing-barcode/", {
           params: {
             patient_id: patientId,
             date: selectedDate.toISOString().split("T")[0],
@@ -457,7 +459,7 @@ const BarcodeTestDetails = () => {
         segment: selectedPatient?.segment,
       }
 
-      const saveResponse = await axios.post("https://lab.shinovadatabase.in/save-barcodes/", payload)
+      const saveResponse = await axios.post("${DiagnosticsBaseUrl}/save-barcodes/", payload)
       if (saveResponse.status === 201) {
         toast.success("All barcodes saved successfully!")
         return true
@@ -480,7 +482,7 @@ const BarcodeTestDetails = () => {
 
     try {
       setIsGenerating(true)
-      const response = await axios.get("https://lab.shinovadatabase.in/get-existing-barcode/", {
+      const response = await axios.get("${DiagnosticsBaseUrl}/get-existing-barcode/", {
         params: {
           patient_id: patientId,
           bill_no: bill_no,
@@ -608,7 +610,7 @@ const BarcodeTestDetails = () => {
   useEffect(() => {
     const fetchTestDetails = async () => {
       try {
-        const response = await axios.get(`https://lab.shinovadatabase.in/patients_get_barcode/?date=${selectedDate.toISOString().split('T')[0]}`);
+        const response = await axios.get(`${DiagnosticsBaseUrl}patients_get_barcode/?date=${selectedDate.toISOString().split('T')[0]}`);
         const patientData = response.data.data.find(
           patient => patient.patient_id === patientId && patient.bill_no === bill_no
         );

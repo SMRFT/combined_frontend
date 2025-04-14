@@ -4,6 +4,9 @@ import { useEffect, useState } from "react"
 import styled, { keyframes } from "styled-components"
 import { Calendar, TrendingUp, BarChart3, Loader2, User, Filter } from "lucide-react"
 
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 const LogisticsDashboard = () => {
   const [collectors, setCollectors] = useState([])
   const [selectedCollector, setSelectedCollector] = useState("")
@@ -17,7 +20,7 @@ const LogisticsDashboard = () => {
 
   useEffect(() => {
     setIsLoading(true)
-    fetch("https://lab.shinovadatabase.in/sample-collector/")
+    fetch(`${DiagnosticsBaseUrl}sample-collector/`)
       .then((response) => response.json())
       .then((data) => {
         const names = data.map((collector) => collector.name)
@@ -34,7 +37,7 @@ const LogisticsDashboard = () => {
     if (!selectedCollector) return
 
     setIsLoading(true)
-    fetch(`https://lab.shinovadatabase.in/logisticdashboard/?sampleCollector=${encodeURIComponent(selectedCollector)}`)
+    fetch(`${DiagnosticsBaseUrl}/logisticdashboard/?sampleCollector=${encodeURIComponent(selectedCollector)}`)
       .then((response) => response.json())
       .then((data) => {
         setLogisticData(data)
@@ -50,7 +53,7 @@ const LogisticsDashboard = () => {
     if (logisticData.length === 0) return
 
     const today = new Date()
-    const selectedDateObj = new Date(selectedDate)
+    // const selectedDateObj = new Date(selectedDate)
     const selectedMonthStr = selectedMonth
     let todaySampleCount = 0
     let wtdSampleCount = 0
