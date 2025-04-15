@@ -35,6 +35,13 @@ import ClinicalName from "./Components/Diagnostic/ClinicalName";
 import RefBy  from "./Components/Diagnostic/RefBy";
 import TestEdit from "./Components/Diagnostic/TestEdit";
 import DoctorForm from "./Components/Diagnostic/DoctorForm";
+import PatientTAT from "./Components/Diagnostic/PatientTAT";
+import Refund from "./Components/Diagnostic/Refund";
+import PatientBilling from "./Components/Diagnostic/PatientBilling";
+import SalesDashboard from "./Components/Diagnostic/SalesDashboard";
+import MIS from "./Components/Diagnostic/MIS";
+import PatientOverallReport from "./Components/Diagnostic/PatientOverallReport";
+import PatientEditForm  from "./Components/Diagnostic/PatientEditForm";
 
 
 // Wrapper for the main content to shift it to the right of the sidebar
@@ -111,29 +118,14 @@ function App() {
           <Route path="/RefBy" element={<RefBy />} />
           <Route path="/TestEdit" element={<TestEdit />} />
           <Route path="/DoctorForm" element={<DoctorForm />} />
-          
-
-          {/* 
-         
-              
-                
-         
-          
+          <Route path="/PatientTAT" element={<PatientTAT />} />
+          <Route path="/Refund" element={<Refund />} />
+          <Route path="/PatientBilling" element={<PatientBilling />} />
+          <Route path="/SalesDashboard" element={<SalesDashboard />} />
+          <Route path="/MIS" element={<MIS />} />
           <Route path="/PatientOverallReport" element={<PatientOverallReport />} />
           <Route path="/PatientEditForm" element={<PatientEditForm />} />
-          <Route path="/MIS" element={<MIS />} />
-          <Route path="/SalesDashboard" element={<SalesDashboard />} />
-
-        
-          <Route path="/Refund" element={<Refund />} />
-          
-          <Route path="/PatientBilling" element={<PatientBilling />} />
-          
-          
-          <Route path="/B2BFinalApproval" element={<B2BFinalApproval />} />
-          <Route path="/PatientTAT" element={<PatientTAT />} />
-         
-          */}
+    
           
           
         </Routes>

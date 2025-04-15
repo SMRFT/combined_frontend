@@ -6,6 +6,8 @@ import styled, { keyframes, css } from "styled-components"
 import TestForm from "./TestForm"
 import { FaTrash, FaSearch, FaPlus, FaUserEdit } from "react-icons/fa"
 
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
 // Animations
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(10px); }
@@ -463,7 +465,7 @@ const PatientEditForm = () => {
     // Fetch the latest patient ID when the component is mounted
     const fetchRefBy = async () => {
         try {
-            const response = await axios.get('https://lab.shinovadatabase.in/refby/')
+            const response = await axios.get(`${DiagnosticsBaseUrl}refby/`)
             setRefByOptions(response.data);
         } catch (error) {
             console.error('Error fetching patient ID:', error);
@@ -476,7 +478,7 @@ const PatientEditForm = () => {
 
     // Fetch clinical names on component mount
     useEffect(() => {
-        axios.get('https://lab.shinovadatabase.in/clinical_name/')
+        axios.get(`${DiagnosticsBaseUrl}clinical_name/`)
             .then((response) => {
                 setClinicalNames(response.data);
             })
@@ -488,7 +490,7 @@ const PatientEditForm = () => {
     // Fetch the latest patient ID when the component is mounted
     const fetchSampleCollector = async () => {
         try {
-            const response = await axios.get('https://lab.shinovadatabase.in/sample-collector/')
+            const response = await axios.get(`${DiagnosticsBaseUrl}sample-collector/`)
             setSampleCollectorOptions(response.data);
         } catch (error) {
             console.error('Error fetching patient ID:', error);
@@ -501,7 +503,7 @@ const PatientEditForm = () => {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get(`https://lab.shinovadatabase.in/patient/get/${searchId}/`);
+            const response = await axios.get(`${DiagnosticsBaseUrl}/patient/get/${searchId}/`);
             const data = response.data;
             console.log(data);
 
@@ -621,7 +623,7 @@ const PatientEditForm = () => {
 
     // Fetch test details and normalize the keys
     useEffect(() => {
-        axios.get('https://lab.shinovadatabase.in/test_details/')
+        axios.get(`${DiagnosticsBaseUrl}test_details/`)
             .then((response) => {
                 const normalizedData = response.data.map(test => ({
                     ...test,
@@ -703,7 +705,7 @@ const PatientEditForm = () => {
             console.log("Sending Data:", updatedFormData);
     
             const response = await axios.put(
-                `https://lab.shinovadatabase.in/patient/update/${formData.patient_id}/`,
+                `${DiagnosticsBaseUrl}/patient/update/${formData.patient_id}/`,
                 updatedFormData
             );
     

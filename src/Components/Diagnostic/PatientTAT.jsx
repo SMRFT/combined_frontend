@@ -3,6 +3,10 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { FiDownload, FiFilter, FiDatabase, FiInfo, FiList } from 'react-icons/fi';
 import * as XLSX from 'xlsx';
 
+
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 // All styled components remain the same as before
 // Global styles
 const GlobalStyle = createGlobalStyle`
@@ -428,7 +432,7 @@ const TestItem = styled.li`
   }
 `;
 
-const PatientDataTable = () => {
+const PatientTAT = () => {
     const [patients, setPatients] = useState([]);
     const [allPatients, setAllPatients] = useState([]); // Store all fetched patients
     const [loading, setLoading] = useState(true);
@@ -449,7 +453,7 @@ const PatientDataTable = () => {
     const [activeTooltipId, setActiveTooltipId] = useState(null);
     
     // API base URL - replace with your actual API endpoint
-    const API_BASE_URL = 'https://lab.shinovadatabase.in/overall_report/';
+    const API_BASE_URL = `${DiagnosticsBaseUrl}overall_report/`;
   
     // Fetch data from API
     const fetchData = async () => {
@@ -946,4 +950,4 @@ const PatientDataTable = () => {
     );
   };
   
-  export default PatientDataTable;
+  export default PatientTAT;
