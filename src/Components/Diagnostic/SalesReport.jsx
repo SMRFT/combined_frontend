@@ -7,6 +7,10 @@ import "react-datepicker/dist/react-datepicker.css"
 import styled, { keyframes } from "styled-components"
 import { Calendar, Download, FileText, Filter, Loader2, User } from "lucide-react"
 
+
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 const SalesReport = () => {
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [salesData, setSalesData] = useState([])
@@ -29,8 +33,7 @@ const SalesReport = () => {
         ? selectedDate.toISOString().slice(0, 7)
         : selectedDate.toISOString().split("T")[0]
 
-      axios
-        .get("https://lab.shinovadatabase.in/SalesVisitLogReport/", {
+        axios.get(`${DiagnosticsBaseUrl}/SalesVisitLogReport/`, {
           params: { date: formattedDate, salesMapping: salesMapping },
         })
         .then((response) => {
@@ -209,14 +212,7 @@ const rotate = keyframes`
   }
 `
 
-const shimmer = keyframes`
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-`
+
 
 // Styled Components
 const Container = styled.div`

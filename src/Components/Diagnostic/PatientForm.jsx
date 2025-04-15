@@ -8,6 +8,10 @@ import RefBy from './RefBy';
 import styled from 'styled-components';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 const Fieldset = styled.fieldset`
 border: 2px dashed #E68FAE; /* Dotted border for gradient effect */
 border-radius: 12px;
@@ -173,7 +177,10 @@ const handleToggleHomeCollection = () => {
 // Fetch the latest patient ID when the component is mounted
 const fetchSampleCollector = async () => {
  try {
- const response = await axios.get('https://lab.shinovadatabase.in/sample-collector/')
+
+    const response = await axios.get(DiagnosticsBaseUrl+ "sample-collector/",)
+
+     
  setSampleCollectorOptions(response.data);
  } catch (error) {
  console.error('Error fetching patient ID:', error);
@@ -193,7 +200,9 @@ const handleSampleCollectorAdded = () => {
 // Fetch the latest patient ID when the component is mounted
 const fetchPatientId = async () => {
  try {
- const response = await axios.get('https://lab.shinovadatabase.in/latest-patient-id/');
+
+    const response = await axios.get(DiagnosticsBaseUrl+ "latest-patient-id/",)
+ 
  setFormData((prevData) => ({
  ...prevData,
  patient_id: response.data.patient_id, // Set the new patient ID
@@ -211,7 +220,9 @@ useEffect(() => {
 // Fetch the latest patient ID when the component is mounted
 const fetchRefBy = async () => {
  try {
- const response = await axios.get('https://lab.shinovadatabase.in/refby/')
+
+    const response = await axios.get(DiagnosticsBaseUrl+ "refby/",)
+ 
  setRefByOptions(response.data);
  } catch (error) {
  console.error('Error fetching patient ID:', error);
@@ -230,7 +241,9 @@ const handleRefByAdded = () => {
 // Fetch the latest patient ID when the component is mounted
 const fetchBillNo = async () => {
  try {
- const response = await axios.get('https://lab.shinovadatabase.in/latest-bill-no/')
+
+    const response = await axios.get(DiagnosticsBaseUrl+ "latest-bill-no/",)
+
  setFormData(prevData => ({
  ...prevData,
  bill_no: response.data.bill_no, // Set the fetched bill_no
@@ -276,7 +289,9 @@ const handleSubmit = async (e) => {
  const B2BValue = isB2BEnabled ? formData.B2B : null;
 
  try {
- const response = await axios.post("https://lab.shinovadatabase.in/patient/create/", {
+
+    
+ const response = await axios.post(DiagnosticsBaseUrl+ "patient/create/", {
  ...formData,
  patientname: fullPatientName,
  segment: segmentValue, // Set the segment dynamically
@@ -376,7 +391,8 @@ queryParam = `patientname=${value}`; // Patient name
 }
 
 // Add the current date as a query parameter
-const response = await axios.get(`https://lab.shinovadatabase.in/patient-get/?${queryParam}&date=${currentDate}`);
+
+const response = await axios.get(DiagnosticsBaseUrl+ `patient-get/` + `?${queryParam}` + `&date=${currentDate}`,)
 if (response.data) {
 const prefixes = /^(MR|MRS|MS|MASTER|MISS|DR|BABY|BABY OF)\s+/i;
 const cleanedName = response.data.patientname.replace(prefixes, "").trim();

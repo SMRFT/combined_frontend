@@ -4,6 +4,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import { ArrowLeft, Save, Edit, Check } from 'lucide-react';
 
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 // Global styles
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -306,7 +309,7 @@ function TestDetails() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://lab.shinovadatabase.in/compare_test_details/?patient_id=${patientId}&date=${selectedDate}`
+        `${DiagnosticsBaseUrl}/compare_test_details/?patient_id=${patientId}&date=${selectedDate}`
       );
       const allTests = response.data.data || [];
       const filteredTests = allTests.filter((test) => test.testname === testName);
@@ -382,7 +385,7 @@ function TestDetails() {
         date: date,
         testdetails: updatedTestDetails,
       };
-      await axios.patch('https://lab.shinovadatabase.in/test-value/update/', payload);
+      await axios.patch('${DiagnosticsBaseUrl}/test-value/update/', payload);
       alert('Test details updated successfully!');
       toggleEditMode(testname);
     } catch (error) {
@@ -441,13 +444,13 @@ function TestDetails() {
     };
     
     try {
-      const response = await axios.patch('https://lab.shinovadatabase.in/test-value/save/', payload);
+      const response = await axios.patch('${DiagnosticsBaseUrl}/test-value/save/', payload);
       alert(response.data.message || 'Test details updated successfully!');
       fetchTestDetails(patientId, date, testName);
     } catch (patchError) {
       if (patchError.response && patchError.response.status === 404) {
         try {
-          const postResponse = await axios.post('https://lab.shinovadatabase.in/test-value/save/', payload);
+          const postResponse = await axios.post('${DiagnosticsBaseUrl}/test-value/save/', payload);
           alert(postResponse.data.message || 'Test details saved successfully!');
           fetchTestDetails(patientId, date, testName);
         } catch (postError) {
@@ -463,7 +466,7 @@ function TestDetails() {
   
   const fetchTestValue = async (patientId, date, testname) => {
     try {
-      const response = await axios.get('https://lab.shinovadatabase.in/test-value/save/', {
+      const response = await axios.get('${DiagnosticsBaseUrl}/test-value/save/', {
         params: { patient_id: patientId, date: date, testname: testname },
       });
   

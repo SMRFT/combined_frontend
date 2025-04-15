@@ -63,6 +63,8 @@ const Td = styled.td`
   border-bottom: 1px solid #ddd;
 `;
 
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 const PatientOverallReport = ({ patient_id, date }) => {
   const [patientData, setPatientData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -73,7 +75,7 @@ const PatientOverallReport = ({ patient_id, date }) => {
   useEffect(() => {
     if (patient_id && date) {
       axios
-        .get(`https://lab.shinovadatabase.in/overall_report/?patient_id=${patient_id}&selected_date=${date}`)
+        .get(`${DiagnosticsBaseUrl}/overall_report/?patient_id=${patient_id}&selected_date=${date}`)
         .then(response => {
           const patientRecord = response.data.find(item => item.patient_id === patient_id);
           if (patientRecord) {
@@ -107,7 +109,7 @@ const PatientOverallReport = ({ patient_id, date }) => {
       payment_method: paymentMethod
     };
   
-    axios.patch(`https://lab.shinovadatabase.in/credit_amount/${patient_id}/`, payload)
+    axios.patch(`${DiagnosticsBaseUrl}/credit_amount/${patient_id}/`, payload)
       .then(() => {
         // Update state immediately to reflect the new payment in the history table
         setPatientData((prevData) => ({

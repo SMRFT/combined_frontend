@@ -10,8 +10,10 @@ import { ToastContainer } from "react-toastify"
 import Swal from "sweetalert2"
 import { jsPDF } from "jspdf"
 import "jspdf-autotable"
-import headerImage from "../Images/Header.png"
-import FooterImage from "../Images/Footer.png"
+import headerImage from "./Images/Header.png"
+import FooterImage from "./Images/Footer.png"
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
 
 const fadeIn = keyframes`
   from {
@@ -579,7 +581,7 @@ const B2BPatients = () => {
 
   const fetchPatients = async () => {
     try {
-      const response = await axios.get("https://lab.shinovadatabase.in/all-patients/")
+      const response = await axios.get(`${DiagnosticsBaseUrl}/all-patients/`)
       const filteredData = response.data.filter(
         (patient) => patient.segment === "B2B" && Number(patient.credit_amount) > 0,
       )
@@ -593,7 +595,7 @@ const B2BPatients = () => {
 
   const fetchInvoices = async () => {
     try {
-      const response = await axios.get("https://lab.shinovadatabase.in/get-invoices/")
+      const response = await axios.get(`${DiagnosticsBaseUrl}/get-invoices/`);
       setInvoices(response.data)
     } catch (error) {
       console.error("Error fetching invoices:", error)
@@ -645,7 +647,7 @@ const B2BPatients = () => {
     }
 
     try {
-      await axios.post("http://127.0.0.1:8000/generate-invoice/", invoiceData)
+      await axios.post(`${DiagnosticsBaseUrl}/generate-invoice/`, invoiceData);
       toast.success("Invoice Generated Successfully!", { autoClose: 3000 })
       fetchInvoices()
       setActiveTab("generated") // Switch to the Generated Invoices tab after successful generation
@@ -737,7 +739,7 @@ const B2BPatients = () => {
       // Add new entry to history
       const updatedHistory = [...existingHistory, paymentHistoryEntry]
 
-      await axios.put(`http://127.0.0.1:8000/update-invoice/${invoiceNumber}/`, {
+      await axios.put(`${DiagnosticsBaseUrl}/update-invoice/${invoiceNumber}/`, {
         totalCreditAmount: editingInvoice.newAmount,
         paidAmount: editingInvoice.newPaidAmount,
         pendingAmount: pendingAmount.toFixed(2),
@@ -783,7 +785,7 @@ const B2BPatients = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`http://127.0.0.1:8000/delete-invoice/${invoiceNumber}/`)
+        await axios.delete(`${DiagnosticsBaseUrl}/delete-invoice/${invoiceNumber}/`)
         setInvoices(invoices.filter((invoice) => invoice.invoiceNumber !== invoiceNumber))
         Swal.fire({
           title: "Deleted!",

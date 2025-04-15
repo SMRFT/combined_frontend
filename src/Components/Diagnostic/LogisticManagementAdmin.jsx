@@ -5,6 +5,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Calendar, User, Clock, Clipboard, ChevronRight, Check, X, FileText, Truck, MessageSquare } from 'lucide-react';
 
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
 // Styled Components with modern design
 const PageContainer = styled.div`
   max-width: 1200px;
@@ -364,7 +366,7 @@ const LogisticManagementAdmin = () => {
   // Fetch clinical names on component mount
   useEffect(() => {
     axios
-      .get('https://lab.shinovadatabase.in/clinical_name/')
+      .get(`${DiagnosticsBaseUrl}/get_clinicalname/`)
       .then((response) => {
         setClinicalNames(response.data);
       })
@@ -372,12 +374,11 @@ const LogisticManagementAdmin = () => {
         console.error('Error fetching clinical names:', error);
       });
   }, []);
-
   // Fetch Sample Collector Data
   useEffect(() => {
     const fetchSampleCollector = async () => {
       try {
-        const response = await axios.get('https://lab.shinovadatabase.in/sample-collector/');
+        const response = await axios.get(`${DiagnosticsBaseUrl}/sample-collector/`);
         setSampleCollectorOptions(response.data);
       } catch (error) {
         console.error('Error fetching sample collectors:', error);
@@ -389,7 +390,7 @@ const LogisticManagementAdmin = () => {
   // Fetch the saved logistic data for table display
   const fetchLogisticData = async () => {
     try {
-      const response = await axios.get('https://lab.shinovadatabase.in/savesamplecollector/');
+      const response = await axios.get(`${DiagnosticsBaseUrl}/savesamplecollector/`);
       setLogisticData(response.data);
     } catch (error) {
       console.error('Error fetching logistic data:', error);
@@ -398,7 +399,7 @@ const LogisticManagementAdmin = () => {
 
   const getfetchLogistic = async () => {
     try {
-      const response = await axios.get('https://lab.shinovadatabase.in/get_logistic_data/');
+      const response = await axios.get(`${DiagnosticsBaseUrl}/get_logistic_data/`);
       setGetLogisticData(response.data);
     } catch (error) {
       console.error('Error fetching logistic data:', error);

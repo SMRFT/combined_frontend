@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import { CheckCircle, Loader2, AlertCircle, User, Calendar, Tag, Code } from 'lucide-react';
 import styled, { createGlobalStyle } from 'styled-components';
 
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 // Global styles
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -242,7 +244,9 @@ const B2BFinalApproval = () => {
   const fetchPendingApprovals = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('https://lab.shinovadatabase.in/clinical-names/?status=PENDING_FINAL');
+      const response = await axios.get(DiagnosticsBaseUrl+ "clinical-names/?status=PENDING_FINAL",)
+
+      // const response = await axios.get('https://lab.shinovadatabase.in/clinical-names/?status=PENDING_FINAL');
       console.log('API Response:', response.data);
       setPendingApprovals(response.data);
       setError(null);
@@ -265,9 +269,9 @@ const B2BFinalApproval = () => {
 
     try {
       setProcessingApproval(referrerCode);
-      await axios.patch(
-        `https://lab.shinovadatabase.in/clinical-names/${referrerCode}/final_approve/`
-      );
+      await axios.patch(`DiagnosticsBaseUrl`,+`clinical-names/`+`${referrerCode}`+`/final_approve/`);
+      
+      // await axios.patch(`https://lab.shinovadatabase.in/clinical-names/${referrerCode}/final_approve/`);
       
       // Custom success toast message
       toast.success(`"${clinicalname || referrerCode}" was finally approved!`, {

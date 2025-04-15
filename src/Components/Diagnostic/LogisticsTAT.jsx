@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 // Styled Components
 const Container = styled.div`
   max-width: 1200px;
@@ -153,7 +155,7 @@ const LogisticsTAT = () => {
   const fetchLogisticData = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get("https://lab.shinovadatabase.in/savesamplecollector/");
+      const response = await axios.get(`${DiagnosticsBaseUrl}savesamplecollector/`);
       setEmployeeData(response.data);
     } catch (error) {
       console.error("Error fetching logistic data:", error);

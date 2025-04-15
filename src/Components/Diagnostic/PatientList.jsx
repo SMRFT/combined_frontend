@@ -5,6 +5,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Search, Calendar, Eye, AlertCircle, CheckCircle, RotateCcw, ChevronLeft, ChevronRight } from 'lucide-react';
 
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 // Global styles
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -405,7 +408,7 @@ function PatientList() {
     const formattedDate = date.toLocaleDateString('en-CA');
     try {
       // Fetch patient list
-      const patientResponse = await fetch(`https://lab.shinovadatabase.in/test-values/?date=${formattedDate}`);
+      const patientResponse = await fetch(`${DiagnosticsBaseUrl}/test-values/?date=${formattedDate}`);
       if (!patientResponse.ok) {
         throw new Error('Failed to fetch patient data');
       }
@@ -413,7 +416,7 @@ function PatientList() {
       setPatientList(patients);
       
       // Fetch test values
-      const testResponse = await fetch(`https://lab.shinovadatabase.in/testvalue/?date=${formattedDate}`);
+      const testResponse = await fetch(`${DiagnosticsBaseUrl}/testvalue/?date=${formattedDate}`);
       if (!testResponse.ok) {
         throw new Error('Failed to fetch test values');
       }

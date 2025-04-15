@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 // Styled Components
 import { Calendar, User, ChevronRight, Search, ChevronLeft, ChevronRight as ChevronRightIcon } from "lucide-react";
 
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 // Modern styled components
 const PageContainer = styled.div`
   max-width: 1200px;
@@ -280,9 +282,10 @@ const BarcodeGeneration = () => {
   
   const fetchPatients = async () => {
     try {
-      const response = await axios.get(
-        `https://lab.shinovadatabase.in/patients_get_barcode/?date=${selectedDate.toISOString().split('T')[0]}`
-      );
+
+      const response = await axios.get(`${DiagnosticsBaseUrl}patients_get_barcode/?date=${selectedDate.toISOString().split('T')[0]}`);
+
+      // const response = await axios.get( `https://lab.shinovadatabase.in/patients_get_barcode/?date=${selectedDate.toISOString().split('T')[0]}`);
       const data = response.data.data;
       if (Array.isArray(data)) {
         setAllPatients(data);

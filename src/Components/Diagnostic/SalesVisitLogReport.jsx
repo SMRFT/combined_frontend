@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faFilter, faCalendarDay, faCalendarWeek, faCalendarAlt, faUser } from '@fortawesome/free-solid-svg-icons';
 
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
 // Styled Components
 const PageContainer = styled.div`
   max-width: 1200px;
@@ -241,7 +243,8 @@ const SalesVisitLogReport = () => {
   const fetchLogs = async () => {
     try {
       setLoading(true);
-      const url = 'https://lab.shinovadatabase.in/SalesVisitLog/';
+      const url = `${DiagnosticsBaseUrl}/SalesVisitLog/`;
+
       const params = {};
       
       if (filter.type === 'date') params.date = filter.value;
@@ -262,7 +265,8 @@ const SalesVisitLogReport = () => {
 
   const fetchSalesMapping = async () => {
     try {
-      const url = 'https://lab.shinovadatabase.in/SalesVisitLog/';
+      const url = `${DiagnosticsBaseUrl}/SalesVisitLog/`;
+
       const response = await axios.get(url);
       
       // Extract unique sales mapping names from response data

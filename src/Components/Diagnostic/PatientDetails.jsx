@@ -9,6 +9,8 @@ import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
 import { useNavigate } from 'react-router-dom'
 
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 // Theme
 const theme = {
   colors: {
@@ -399,8 +401,8 @@ const PatientDetails = () => {
         const formattedDate = format(selectedDate, 'yyyy-MM-dd')
         
         const [patientResponse, testResponse] = await Promise.all([
-          axios.get(`https://lab.shinovadatabase.in/samplestatus-testvalue/?date=${formattedDate}`),
-          axios.get(`https://lab.shinovadatabase.in/testvalue/?date=${formattedDate}`)
+          axios.get(`${DiagnosticsBaseUrl}/samplestatus-testvalue/?date=${formattedDate}`),
+          axios.get(`${DiagnosticsBaseUrl}/testvalue/?date=${formattedDate}`)
         ])
 
         setPatientDetails(patientResponse.data)

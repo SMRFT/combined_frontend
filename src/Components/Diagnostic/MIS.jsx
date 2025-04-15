@@ -7,6 +7,8 @@ import { Download, Search, Clock, User, FileText, Activity, Calendar } from "luc
 import * as XLSX from "xlsx"
 import { saveAs } from "file-saver"
 
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
 // Styled Components
 const Container = styled.div`
   max-width: 1200px;
@@ -220,7 +222,7 @@ const MIS = () => {
   const fetchConsolidatedData = async (selectedDate) => {
     setLoading(true)
     try {
-      const response = await axios.get("https://lab.shinovadatabase.in/consolidated-data/", {
+      const response = await axios.get(`${DiagnosticsBaseUrl}consolidated-data/`, {
         params: { date: selectedDate },
       })
       setData(response.data)

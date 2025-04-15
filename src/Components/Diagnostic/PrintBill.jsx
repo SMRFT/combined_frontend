@@ -5,7 +5,8 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { Search, Printer } from 'lucide-react';
 import { format } from 'date-fns';
-import headerImage from '../Images/Header.png';
+import headerImage from '../Diagnostic/Images/Header.png'
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
 
 const Container = styled.div`
   max-width: 1200px;
@@ -203,7 +204,7 @@ const PrintBill = () => {
   const fetchPatients = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/patients/?start_date=${startDate.toISOString().split('T')[0]}&end_date=${endDate.toISOString().split('T')[0]}`
+        `${DiagnosticsBaseUrl}patients/?start_date=${startDate.toISOString().split('T')[0]}&end_date=${endDate.toISOString().split('T')[0]}`
       );
       const data = response.data.data;
       if (Array.isArray(data)) {

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import styled, { createGlobalStyle } from "styled-components";
 
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 // Reuse the same styled components from Refund component
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -500,7 +502,7 @@ const Cancellation = () => {
     setIsLoading(true);
     
     try {
-      const response = await axios.get("https://lab.shinovadatabase.in/search_cancellation/", {
+      const response = await axios.get(`${DiagnosticsBaseUrl}/search_cancellation/`, {
         params: { 
           patient_id: patientId,
           date: new Date().toISOString().split("T")[0] 
@@ -578,7 +580,7 @@ const Cancellation = () => {
       const patientDetails = patients[0]; // Assuming single patient for now
       const testDetails = selectedTests.map(test => `${test.testname} - ₹${test.amount}`).join(", ");
 
-      const response = await axios.post("https://lab.shinovadatabase.in/generate_otp_cancellation/", {
+      const response = await axios.post(`${DiagnosticsBaseUrl}/generate_otp_cancellation/`, {
         email: email,
         patient_details: {
           patient_id: patientId,
@@ -615,7 +617,7 @@ const Cancellation = () => {
     setIsLoading(true);
     
     try {
-      const response = await axios.post("https://lab.shinovadatabase.in/verify_and_process_cancellation/", {
+      const response = await axios.post(`${DiagnosticsBaseUrl}/verify_and_process_cancellation/`, {
         patient_id: patientId,
         selected_tests: selectedTests.map(test => test.testname),
         email: email,

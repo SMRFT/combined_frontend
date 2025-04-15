@@ -4,7 +4,10 @@ import { Trash2, Calendar, CreditCard, DollarSign, AlertCircle } from "lucide-re
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import axios from "axios"
-import headerImage from '../Images/Header.png';
+import headerImage from './Images/Header.png';
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 // Styled components with modern design
 const Container = styled.div`
  padding: 2rem;
@@ -495,7 +498,7 @@ const PatientBilling = () => {
  useEffect(() => {
  // Fetch test details
  axios
- .get("https://lab.shinovadatabase.in/test_details/")
+ .get(`${DiagnosticsBaseUrl}test_details/`)
  .then((response) => {
  const normalizedData = response.data.map((test) => ({
  ...test,
@@ -518,7 +521,7 @@ const PatientBilling = () => {
  const fetchPatients = async (date) => {
  setLoading(true)
  try {
- const response = await axios.get(`https://lab.shinovadatabase.in/get_patients/?date=${date}`)
+ const response = await axios.get(`${DiagnosticsBaseUrl}get_patients/?date=${date}`)
 
  // Process patients data to ensure tests are properly formatted
  const patientsWithTests = response.data.map((patient) => {
@@ -615,7 +618,7 @@ const PatientBilling = () => {
  const fetchPatientTests = async (patientId) => {
   setLoading(true)
   try {
-    const response = await axios.get(`https://lab.shinovadatabase.in/patient/tests/${patientId}/${selectedDate}/`)
+    const response = await axios.get(`${DiagnosticsBaseUrl}/patient/tests/${patientId}/${selectedDate}/`)
     if (response.data && response.data.testname) {
       // Parse the JSON string if it's stored as a string
       let tests = []
@@ -848,7 +851,7 @@ const PatientBilling = () => {
 
   try {
     await axios.patch(
-      `http://127.0.0.1:8000/patient/update_billing/${selectedPatient.patient_id}/`,
+      `${DiagnosticsBaseUrl}/patient/update_billing/${selectedPatient.patient_id}/`,
       billingData
     );
     toast.success("Billing updated successfully!");
@@ -1046,9 +1049,7 @@ const PatientBilling = () => {
  };
  
  
- 
- 
- 
+  
  
 
  return (

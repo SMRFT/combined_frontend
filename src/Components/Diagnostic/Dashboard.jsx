@@ -5,6 +5,9 @@ import axios from "axios"
 import styled from "styled-components"
 import { Tooltip, Legend, ResponsiveContainer, XAxis, YAxis, LineChart, Line, CartesianGrid } from "recharts"
 
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 const DashboardContainer = styled(motion.div)`
   padding: 2rem;
   background: #f8fafc;
@@ -278,7 +281,8 @@ const Dashboard = () => {
   const fetchData = async () => {
     setIsLoading(true)
     try {
-      const response = await axios.get("https://lab.shinovadatabase.in/patient_overview/")
+
+      const response = await axios.get(DiagnosticsBaseUrl+ "patient_overview/",)
       const data = response.data
       setPatients(data)
       setFilteredPatients(data)

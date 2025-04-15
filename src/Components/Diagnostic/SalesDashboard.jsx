@@ -10,6 +10,9 @@ import {
 } from 'recharts';
 import { Users, DollarSign, FlaskRound as Flask, Calendar, TrendingUp, Calculator } from 'lucide-react';
 
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 const theme = {
   colors: {
     primary: '#6366f1',
@@ -276,7 +279,7 @@ function App() {
   });
 
   useEffect(() => {
-    axios.get("https://lab.shinovadatabase.in/getsalesmapping/")
+    axios.get(`${DiagnosticsBaseUrl}getsalesmapping/`)
       .then(response => {
         const mappings = [...new Set(response.data.map(log => log.salesMapping).filter(Boolean))];
         setSalesMappings(mappings);
@@ -289,7 +292,7 @@ function App() {
 
   useEffect(() => {
     if (selectedSalesMapping) {
-      let apiUrl = `https://lab.shinovadatabase.in/salesdashboard/?salesMapping=${selectedSalesMapping}`;
+      let apiUrl = `${DiagnosticsBaseUrl}/salesdashboard/?salesMapping=${selectedSalesMapping}`;
 
       if (filterType === "date") {
         apiUrl += `&date=${format(selectedDate, 'yyyy-MM-dd')}`;

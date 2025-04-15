@@ -3,6 +3,10 @@ import axios from 'axios';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Save, ChevronRight, ChevronLeft, Mail, Phone, AlertCircle, Check } from 'lucide-react';
 
+
+
+const DiagnosticsBaseUrl = import.meta.env.VITE_BACKEND_Diagnostics_BASE_URL;
+
 // Global styles
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -440,7 +444,9 @@ const B2B = () => {
 
   const handleGetLastReferrerCode = async () => {
     try {
-      const response = await axios.get("https://lab.shinovadatabase.in/clinical_name/last/");
+
+
+      const response = await axios.get(DiagnosticsBaseUrl+ "clinical_name/last/",)
       const lastReferrerCode = response.data?.referrerCode || "SD0000";
       const nextReferrerCode = `SD${String(parseInt(lastReferrerCode.substring(2), 10) + 1).padStart(4, "0")}`;
   
@@ -479,9 +485,10 @@ const B2B = () => {
             }
         });
 
+
+       
         // Submit directly to clinical_name endpoint - status will be set automatically
-        const response = await axios.post(
-            "https://lab.shinovadatabase.in/clinical_name/",
+        const response = await axios.get(DiagnosticsBaseUrl+ "clinical_name/",
             submitFormData,
             {
                 headers: { "Content-Type": "multipart/form-data" },
